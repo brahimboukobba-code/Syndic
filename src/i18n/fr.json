@@ -1,0 +1,42 @@
+{
+  "app": { "name": "Syndic", "tagline": "Gestion transparente de votre copropriété" },
+  "login": {
+    "title": "Connexion",
+    "subtitle": "Recevez un lien de connexion par e-mail",
+    "email": "Adresse e-mail",
+    "emailPlaceholder": "vous@exemple.ma",
+    "send": "Recevoir le lien",
+    "sending": "Envoi en cours…",
+    "sent": "Lien envoyé. Vérifiez votre boîte e-mail et cliquez sur le lien pour vous connecter.",
+    "error": "Impossible d'envoyer le lien. Vérifiez l'adresse et réessayez.",
+    "checkSpam": "Pensez à regarder dans vos courriers indésirables."
+  },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "finances": "Finances",
+    "projects": "Projets",
+    "meetings": "Réunions",
+    "announcements": "Annonces",
+    "complaints": "Réclamations",
+    "history": "Historique",
+    "logout": "Déconnexion"
+  },
+  "roles": {
+    "syndic": "Syndic",
+    "vice_syndic": "Vice-syndic",
+    "tresorier": "Trésorier",
+    "proprietaire": "Propriétaire",
+    "locataire": "Locataire"
+  },
+  "dashboard": {
+    "welcome": "Bonjour",
+    "yourRole": "Votre rôle",
+    "comingSoon": "Cette section arrive au prochain sprint.",
+    "placeholder": "Le contenu détaillé de cette page sera ajouté dans un prochain sprint."
+  },
+  "common": {
+    "loading": "Chargement…",
+    "noBuilding": "Aucune copropriété n'est encore associée à votre compte. Contactez votre syndic.",
+    "language": "Langue"
+  }
+}
