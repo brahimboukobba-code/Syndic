@@ -1,0 +1,157 @@
+{
+  "app": {
+    "name": "النقابة",
+    "tagline": "تدبير شفاف لملكيتكم المشتركة"
+  },
+  "login": {
+    "title": "تسجيل الدخول",
+    "subtitle": "توصلوا برابط الدخول عبر البريد الإلكتروني",
+    "email": "البريد الإلكتروني",
+    "emailPlaceholder": "you@example.ma",
+    "send": "إرسال الرابط",
+    "sending": "جاري الإرسال…",
+    "sent": "تم إرسال الرابط. تحققوا من بريدكم الإلكتروني واضغطوا على الرابط للدخول.",
+    "error": "تعذر إرسال الرابط. تحققوا من العنوان وأعيدوا المحاولة.",
+    "checkSpam": "تحققوا أيضا من مجلد الرسائل غير المرغوب فيها."
+  },
+  "nav": {
+    "dashboard": "لوحة القيادة",
+    "finances": "المالية",
+    "projects": "المشاريع",
+    "meetings": "الاجتماعات",
+    "announcements": "الإعلانات",
+    "complaints": "الشكايات",
+    "history": "السجل",
+    "logout": "تسجيل الخروج"
+  },
+  "roles": {
+    "syndic": "النقيب",
+    "vice_syndic": "نائب النقيب",
+    "tresorier": "أمين المال",
+    "proprietaire": "مالك",
+    "locataire": "مكتري"
+  },
+  "dashboard": {
+    "welcome": "مرحبا",
+    "yourRole": "صفتكم",
+    "comingSoon": "هذا القسم سيضاف في المرحلة القادمة.",
+    "placeholder": "المحتوى التفصيلي لهذه الصفحة سيضاف في مرحلة قادمة.",
+    "mandate": "ولاية النقيب",
+    "lastVote": "آخر تصويت",
+    "remaining": "الوقت المتبقي",
+    "mandateEndsIn": "نهاية الولاية بعد {{days}} يوما",
+    "mandateExpiringSoon": "ولاية النقيب ستنتهي قريبا ({{days}} يوما). يجب تنظيم انتخاب جديد.",
+    "mandateExpired": "ولاية النقيب منتهية. يلزم انتخاب جديد (القانون 18-00، المادة 19).",
+    "noMandate": "لا توجد ولاية نقيب مسجلة.",
+    "nextAG": "الجمع العام المقبل",
+    "lastAG": "آخر جمع عام",
+    "agDueIn": "الجمع العام المقبل متوقع بعد {{days}} يوما",
+    "agOverdue": "الجمع العام السنوي متأخر ({{days}} يوما). يجب الدعوة إليه (المادة 16 مكرر).",
+    "agSoon": "الجمع العام السنوي يقترب ({{days}} يوما). تذكروا الدعوة قبل 15 يوما.",
+    "noAG": "لم يعقد أي جمع عام حتى الآن.",
+    "downloadPV": "تحميل المحضر",
+    "financialSummary": "ملخص مالي",
+    "balance": "الرصيد التقديري",
+    "paidRatio": "الاشتراكات المؤداة",
+    "unpaid": "غير المؤدى",
+    "monthExpenses": "مصاريف الشهر",
+    "byCategory": "المصاريف حسب الصنف",
+    "noCategoryData": "لا توجد مصاريف مصادق عليها للعرض.",
+    "recentActivity": "آخر العمليات",
+    "seeAll": "عرض الكل",
+    "days": "يوما",
+    "years": "سنوات"
+  },
+  "common": {
+    "loading": "جاري التحميل…",
+    "noBuilding": "لا توجد ملكية مشتركة مرتبطة بحسابكم بعد. تواصلوا مع النقيب.",
+    "language": "اللغة"
+  },
+  "finances": {
+    "title": "المالية",
+    "tabExpenses": "المصاريف",
+    "tabContributions": "الاشتراكات",
+    "balance": "الرصيد التقديري",
+    "totalExpenses": "مجموع المصاريف",
+    "addExpense": "إضافة مصروف",
+    "noExpenses": "لا توجد مصاريف مسجلة حاليا.",
+    "noContributions": "لا توجد اشتراكات مسجلة.",
+    "expenseTypes": {
+      "charge_fixe": "مصروف قار",
+      "urgente": "مستعجل",
+      "projet": "مشروع"
+    },
+    "expenseStatus": {
+      "en_attente_validation": "في انتظار المصادقة",
+      "valide": "مصادق عليه",
+      "rejete": "مرفوض",
+      "supprime": "محذوف"
+    },
+    "contributionStatus": {
+      "a_payer": "للأداء",
+      "paye": "مؤدى",
+      "retard": "متأخر"
+    },
+    "lateBannerOne": "اشتراك واحد متأخر",
+    "lateBannerMany": "{{count}} اشتراكات متأخرة",
+    "lateBannerAmount": "مجموع غير المؤدى: {{amount}}",
+    "viewProof": "عرض الوثيقة",
+    "validate": "المصادقة",
+    "awaitingSyndic": "بانتظار النقيب",
+    "awaitingVice": "بانتظار نائب النقيب",
+    "validatedBy": "مصادق عليه من الطرفين",
+    "recordPayment": "تسجيل الأداء",
+    "markPaid": "تأشير كمؤدى",
+    "apartment": "السكن",
+    "period": "الفترة",
+    "dueDate": "تاريخ الاستحقاق",
+    "paidOn": "أدي في",
+    "beneficiary": "المستفيد",
+    "category": "الصنف",
+    "amount": "المبلغ",
+    "date": "التاريخ",
+    "proof": "الوثيقة (فاتورة/وصل)",
+    "label": "العنوان",
+    "type": "النوع",
+    "paymentMethod": "وسيلة الأداء",
+    "methods": {
+      "especes": "نقدا",
+      "cheque": "شيك",
+      "virement": "تحويل",
+      "carte": "بطاقة",
+      "autre": "أخرى"
+    },
+    "save": "حفظ",
+    "saving": "جاري الحفظ…",
+    "cancel": "إلغاء",
+    "required": "هذا الحقل إجباري.",
+    "proofRequired": "الوثيقة إجبارية.",
+    "readOnly": "للقراءة فقط — فقط أمين المال والنقيب يمكنهم التعديل."
+  },
+  "history": {
+    "title": "السجل",
+    "subtitle": "جميع العمليات، مرئية للجميع.",
+    "empty": "لا توجد عمليات مسجلة.",
+    "actions": {
+      "insert": "إضافة",
+      "update": "تعديل",
+      "delete": "حذف"
+    },
+    "tables": {
+      "depenses": "مصروف",
+      "cotisations": "اشتراك",
+      "projets": "مشروع",
+      "devis": "عرض ثمن",
+      "votes": "تصويت",
+      "reunions": "اجتماع",
+      "mandats_syndic": "ولاية النقيب",
+      "annonces": "إعلان",
+      "reclamations": "شكاية",
+      "utilisateurs": "ساكن",
+      "occupations": "إشغال",
+      "user_roles": "صفة"
+    },
+    "by": "بواسطة",
+    "changed": "الحقول المعدلة"
+  }
+}

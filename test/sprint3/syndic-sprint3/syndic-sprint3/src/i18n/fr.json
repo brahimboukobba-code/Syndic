@@ -1,0 +1,157 @@
+{
+  "app": {
+    "name": "Syndic",
+    "tagline": "Gestion transparente de votre copropriété"
+  },
+  "login": {
+    "title": "Connexion",
+    "subtitle": "Recevez un lien de connexion par e-mail",
+    "email": "Adresse e-mail",
+    "emailPlaceholder": "vous@exemple.ma",
+    "send": "Recevoir le lien",
+    "sending": "Envoi en cours…",
+    "sent": "Lien envoyé. Vérifiez votre boîte e-mail et cliquez sur le lien pour vous connecter.",
+    "error": "Impossible d'envoyer le lien. Vérifiez l'adresse et réessayez.",
+    "checkSpam": "Pensez à regarder dans vos courriers indésirables."
+  },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "finances": "Finances",
+    "projects": "Projets",
+    "meetings": "Réunions",
+    "announcements": "Annonces",
+    "complaints": "Réclamations",
+    "history": "Historique",
+    "logout": "Déconnexion"
+  },
+  "roles": {
+    "syndic": "Syndic",
+    "vice_syndic": "Vice-syndic",
+    "tresorier": "Trésorier",
+    "proprietaire": "Propriétaire",
+    "locataire": "Locataire"
+  },
+  "dashboard": {
+    "welcome": "Bonjour",
+    "yourRole": "Votre rôle",
+    "comingSoon": "Cette section arrive au prochain sprint.",
+    "placeholder": "Le contenu détaillé de cette page sera ajouté dans un prochain sprint.",
+    "mandate": "Mandat du syndic",
+    "lastVote": "Dernier vote",
+    "remaining": "Temps restant",
+    "mandateEndsIn": "Fin du mandat dans {{days}} jours",
+    "mandateExpiringSoon": "Le mandat du syndic se termine bientôt ({{days}} jours). Une nouvelle élection doit être organisée.",
+    "mandateExpired": "Le mandat du syndic est expiré. Une nouvelle élection est requise (loi 18-00, Art. 19).",
+    "noMandate": "Aucun mandat de syndic enregistré.",
+    "nextAG": "Prochaine assemblée générale",
+    "lastAG": "Dernière AG",
+    "agDueIn": "Prochaine AG attendue dans {{days}} jours",
+    "agOverdue": "L'assemblée générale annuelle est en retard ({{days}} jours). Elle doit être convoquée (Art. 16ter).",
+    "agSoon": "L'assemblée générale annuelle approche ({{days}} jours). Pensez à la convoquer 15 jours avant.",
+    "noAG": "Aucune assemblée générale tenue pour le moment.",
+    "downloadPV": "Télécharger le PV",
+    "financialSummary": "Synthèse financière",
+    "balance": "Solde estimé",
+    "paidRatio": "Cotisations payées",
+    "unpaid": "Impayés",
+    "monthExpenses": "Dépenses du mois",
+    "byCategory": "Dépenses par catégorie",
+    "noCategoryData": "Aucune dépense validée à afficher.",
+    "recentActivity": "Dernières opérations",
+    "seeAll": "Tout voir",
+    "days": "jours",
+    "years": "ans"
+  },
+  "common": {
+    "loading": "Chargement…",
+    "noBuilding": "Aucune copropriété n'est encore associée à votre compte. Contactez votre syndic.",
+    "language": "Langue"
+  },
+  "finances": {
+    "title": "Finances",
+    "tabExpenses": "Dépenses",
+    "tabContributions": "Cotisations",
+    "balance": "Solde estimé",
+    "totalExpenses": "Total dépenses",
+    "addExpense": "Ajouter une dépense",
+    "noExpenses": "Aucune dépense enregistrée pour le moment.",
+    "noContributions": "Aucune cotisation enregistrée.",
+    "expenseTypes": {
+      "charge_fixe": "Charge fixe",
+      "urgente": "Urgente",
+      "projet": "Projet"
+    },
+    "expenseStatus": {
+      "en_attente_validation": "En attente de validation",
+      "valide": "Validée",
+      "rejete": "Rejetée",
+      "supprime": "Supprimée"
+    },
+    "contributionStatus": {
+      "a_payer": "À payer",
+      "paye": "Payée",
+      "retard": "En retard"
+    },
+    "lateBannerOne": "1 cotisation en retard",
+    "lateBannerMany": "{{count}} cotisations en retard",
+    "lateBannerAmount": "Total impayé : {{amount}}",
+    "viewProof": "Voir le justificatif",
+    "validate": "Valider",
+    "awaitingSyndic": "Attente syndic",
+    "awaitingVice": "Attente vice-syndic",
+    "validatedBy": "Validée par les deux responsables",
+    "recordPayment": "Enregistrer le paiement",
+    "markPaid": "Marquer payée",
+    "apartment": "Logement",
+    "period": "Période",
+    "dueDate": "Échéance",
+    "paidOn": "Payée le",
+    "beneficiary": "Bénéficiaire",
+    "category": "Catégorie",
+    "amount": "Montant",
+    "date": "Date",
+    "proof": "Justificatif (facture/reçu)",
+    "label": "Intitulé",
+    "type": "Type",
+    "paymentMethod": "Moyen de paiement",
+    "methods": {
+      "especes": "Espèces",
+      "cheque": "Chèque",
+      "virement": "Virement",
+      "carte": "Carte",
+      "autre": "Autre"
+    },
+    "save": "Enregistrer",
+    "saving": "Enregistrement…",
+    "cancel": "Annuler",
+    "required": "Ce champ est obligatoire.",
+    "proofRequired": "Le justificatif est obligatoire.",
+    "readOnly": "Lecture seule — seuls le trésorier et le syndic peuvent modifier."
+  },
+  "history": {
+    "title": "Historique",
+    "subtitle": "Toutes les opérations, visibles par tous.",
+    "empty": "Aucune opération enregistrée.",
+    "actions": {
+      "insert": "Ajout",
+      "update": "Modification",
+      "delete": "Suppression"
+    },
+    "tables": {
+      "depenses": "Dépense",
+      "cotisations": "Cotisation",
+      "projets": "Projet",
+      "devis": "Devis",
+      "votes": "Vote",
+      "reunions": "Réunion",
+      "mandats_syndic": "Mandat syndic",
+      "annonces": "Annonce",
+      "reclamations": "Réclamation",
+      "utilisateurs": "Habitant",
+      "occupations": "Occupation",
+      "user_roles": "Rôle"
+    },
+    "by": "par",
+    "changed": "Champs modifiés"
+  }
+}

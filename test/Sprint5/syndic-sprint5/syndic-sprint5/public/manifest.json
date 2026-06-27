@@ -1,0 +1,12 @@
+{
+  "name": "Syndic — Gestion de copropriété",
+  "short_name": "Syndic",
+  "description": "Gestion transparente de votre copropriété",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f1d30",
+  "theme_color": "#2c5282",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
