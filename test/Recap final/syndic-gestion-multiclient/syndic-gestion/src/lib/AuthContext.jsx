@@ -24,7 +24,6 @@ export function AuthProvider({ children }) {
     const { data: roleRows } = await supabase
       .from('user_roles')
       .select('role, immeuble_id')
-      .eq('user_id', uid)
       .is('date_fin', null)
     const activeRoles = roleRows || []
     setRoles(activeRoles)
