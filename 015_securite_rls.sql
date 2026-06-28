@@ -14,6 +14,15 @@
 -- =====================================================================
 
 -- ---------------------------------------------------------------------
+-- 0. ACCÈS AU SCHÉMA app POUR LE RÔLE authenticated (CRUCIAL)
+--    Sans ce GRANT, les policies qui appellent app.has_role(...) ne
+--    s'évaluent pas correctement et l'écriture passe à tort.
+-- ---------------------------------------------------------------------
+grant usage on schema app to authenticated;
+grant execute on all functions in schema app to authenticated;
+alter default privileges in schema app grant execute on functions to authenticated;
+
+-- ---------------------------------------------------------------------
 -- 1. Helpers de sécurité (redéfinis proprement, filtrent sur auth.uid())
 -- ---------------------------------------------------------------------
 
@@ -196,3 +205,13 @@ create policy annonces_update on public.annonces
   for update
   using (app.has_role(immeuble_id, array['syndic','vice_syndic']))
   with check (app.has_role(immeuble_id, array['syndic','vice_syndic']));
+
+-- ---------------------------------------------------------------------
+-- 8. Forcer la RLS (s'applique même au propriétaire de la table)
+-- ---------------------------------------------------------------------
+alter table public.depenses    force row level security;
+alter table public.cotisations force row level security;
+alter table public.projets     force row level security;
+alter table public.votes       force row level security;
+alter table public.reunions    force row level security;
+alter table public.annonces    force row level security;

@@ -7,6 +7,7 @@ import { formatMAD } from '../lib/format'
 import { Modal, Spinner } from '../components/ui'
 import ExpenseList from '../components/ExpenseList'
 import ContributionList from '../components/ContributionList'
+import ContributionGrid from '../components/ContributionGrid'
 import ExpenseForm from '../components/ExpenseForm'
 
 export default function Finances() {
@@ -16,6 +17,7 @@ export default function Finances() {
   const [tab, setTab] = useState('expenses')
   const [expenses, setExpenses] = useState([])
   const [contributions, setContributions] = useState([])
+  const [logements, setLogements] = useState([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
 
@@ -35,8 +37,17 @@ export default function Finances() {
       .eq('exercice_id', exercice.id)
       .order('date_echeance', { ascending: false })
     setContributions(cot || [])
+
+    if (building?.id) {
+      const { data: logs } = await supabase
+        .from('logements')
+        .select('id, numero')
+        .eq('immeuble_id', building.id)
+        .order('numero')
+      setLogements(logs || [])
+    }
     setLoading(false)
-  }, [exercice?.id])
+  }, [exercice?.id, building?.id])
 
   useEffect(() => { load() }, [load])
 
@@ -121,7 +132,15 @@ export default function Finances() {
       {/* Contenu */}
       {tab === 'expenses'
         ? <ExpenseList expenses={expenses} onChanged={load} />
-        : <ContributionList contributions={contributions} onChanged={load} />}
+        : (canEditExpenses
+            ? <ContributionGrid
+                exercice={exercice}
+                building={building}
+                logements={logements}
+                contributions={contributions}
+                onChanged={load}
+              />
+            : <ContributionList contributions={contributions} onChanged={load} />)}
 
       {/* Modale d'ajout */}
       <Modal open={showForm} onClose={() => setShowForm(false)} title={t('finances.addExpense')}>

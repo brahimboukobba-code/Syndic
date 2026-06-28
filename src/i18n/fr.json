@@ -437,5 +437,22 @@
     "noLogement": "— Aucun —",
     "confirmReset": "Réinitialiser le mot de passe de cet habitant ?",
     "loadError": "Impossible de charger les comptes. Vérifiez que la fonction admin est déployée."
+  },
+  "contrib": {
+    "amount": "Montant",
+    "perMonth": "mois",
+    "apartment": "Logement",
+    "paid": "Payée (validée)",
+    "declared": "Déclarée (à valider)",
+    "none": "Non déclarée",
+    "declare": "Déclarer comme payée",
+    "validate": "Valider",
+    "declaredValidate": "Valider ce paiement (trésorier)",
+    "declaredWaiting": "Déclarée — en attente de validation du trésorier",
+    "confirmCancel": "Annuler cette cotisation ?",
+    "gridHint": "Cliquez sur une case pour déclarer une cotisation payée",
+    "noLogements": "Aucun logement.",
+    "tabGrid": "Grille",
+    "tabList": "Liste"
   }
 }
