@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/AuthContext'
 import { formatMAD } from '../lib/format'
+import { generateReceipt } from '../lib/receipt'
+import { notifyUser } from '../lib/notify'
 
 // Grille mensuelle des cotisations : logements en lignes, 12 mois en colonnes.
 // Statuts d'une case :
@@ -80,6 +82,43 @@ export default function ContributionGrid({ exercice, building, logements, contri
         validee_le: new Date().toISOString(),
       }).eq('id', cotisation.id)
       if (error) throw error
+
+      // Relire pour récupérer le numéro de reçu généré par le trigger
+      const { data: fresh } = await supabase.from('cotisations')
+        .select('*, logement:logements(numero)')
+        .eq('id', cotisation.id)
+        .single()
+
+      // Générer le PDF du reçu, le stocker, et notifier le propriétaire
+      if (fresh) {
+        try {
+          const recuPath = await generateReceipt({
+            cotisation: fresh,
+            immeuble: building,
+            logementNumero: fresh.logement?.numero,
+            recuNumero: fresh.recu_numero,
+          })
+          await supabase.from('cotisations').update({ recu_url: recuPath }).eq('id', cotisation.id)
+
+          const { data: occ } = await supabase
+            .from('occupations')
+            .select('user_id')
+            .eq('logement_id', fresh.logement_id)
+            .eq('type', 'proprietaire')
+            .is('date_fin', null)
+          for (const o of occ || []) {
+            await notifyUser(o.user_id, {
+              type: 'recu_disponible',
+              titre: t('finances.recuReady'),
+              message: `${fresh.periode} · ${formatMAD(fresh.montant)}`,
+              entiteType: 'cotisation', entiteId: cotisation.id,
+            })
+          }
+        } catch (pdfErr) {
+          // Le paiement est validé même si le PDF échoue
+          console.warn('Reçu non généré :', pdfErr?.message)
+        }
+      }
       onChanged?.()
     } catch (e) {
       alert(e.message)

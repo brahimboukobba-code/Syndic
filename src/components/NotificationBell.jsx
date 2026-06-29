@@ -51,7 +51,12 @@ export default function NotificationBell() {
       .channel('notif-' + uid)
       .on('postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'notifications', filter: `user_id=eq.${uid}` },
-        (payload) => setItems((prev) => [payload.new, ...prev].slice(0, 20))
+        (payload) => setItems((prev) => {
+          // Éviter le doublon : si la notification est déjà présente
+          // (ajoutée par un load() concurrent), ne pas la ré-ajouter.
+          if (prev.some((n) => n.id === payload.new.id)) return prev
+          return [payload.new, ...prev].slice(0, 20)
+        })
       )
       .subscribe()
     return () => { supabase.removeChannel(channel) }
