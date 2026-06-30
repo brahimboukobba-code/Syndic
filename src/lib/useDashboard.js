@@ -42,15 +42,29 @@ export function useDashboard() {
       .limit(1)
       .maybeSingle()
 
-    // Exercice en cours
-    const { data: exercice } = await supabase
+    // Exercice en cours : priorité à celui qui couvre la date du jour
+    const today = new Date().toISOString().slice(0, 10)
+    let { data: exercice } = await supabase
       .from('exercices')
       .select('id, libelle, date_debut, date_fin')
       .eq('immeuble_id', building.id)
       .eq('statut', 'en_cours')
+      .lte('date_debut', today)
+      .gte('date_fin', today)
       .order('date_debut', { ascending: false })
       .limit(1)
       .maybeSingle()
+    if (!exercice) {
+      const res = await supabase
+        .from('exercices')
+        .select('id, libelle, date_debut, date_fin')
+        .eq('immeuble_id', building.id)
+        .eq('statut', 'en_cours')
+        .order('date_debut', { ascending: false })
+        .limit(1)
+        .maybeSingle()
+      exercice = res.data
+    }
 
     let expenses = [], contributions = []
     if (exercice?.id) {
