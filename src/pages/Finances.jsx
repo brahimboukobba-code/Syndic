@@ -132,15 +132,13 @@ export default function Finances() {
       {/* Contenu */}
       {tab === 'expenses'
         ? <ExpenseList expenses={expenses} onChanged={load} />
-        : (canEditExpenses
-            ? <ContributionGrid
-                exercice={exercice}
-                building={building}
-                logements={logements}
-                contributions={contributions}
-                onChanged={load}
-              />
-            : <ContributionList contributions={contributions} onChanged={load} />)}
+        : <ContributionGrid
+            exercice={exercice}
+            building={building}
+            logements={logements}
+            contributions={contributions}
+            onChanged={load}
+          />}
 
       {/* Modale d'ajout */}
       <Modal open={showForm} onClose={() => setShowForm(false)} title={t('finances.addExpense')}>

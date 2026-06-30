@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useSearchParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/AuthContext'
 import { formatDateTime } from '../lib/format'
@@ -39,6 +40,16 @@ export default function Complaints() {
   }, [building?.id])
 
   useEffect(() => { load() }, [load])
+
+  // Ouvrir la réclamation ciblée par une notification (?focus=<id>)
+  const [searchParams] = useSearchParams()
+  useEffect(() => {
+    const fid = searchParams.get('focus')
+    if (fid && items.length > 0) {
+      const found = items.find((c) => c.id === fid)
+      if (found) setSelected(found)
+    }
+  }, [searchParams, items])
 
   async function send(e) {
     e.preventDefault()
@@ -198,7 +209,7 @@ function ComplaintDetail({ item, onBack, isManager, uid }) {
 
       <div>
         <div className="flex items-start justify-between gap-3 mb-2">
-          <h1 className="text-xl font-bold">{c.titre}</h1>
+          <h1 className="text-xl font-bold break-words min-w-0">{c.titre}</h1>
           <Badge tone={statusTone[c.statut]}>{t(`complaints.status.${c.statut}`)}</Badge>
         </div>
         <div className="flex items-center gap-2 flex-wrap mb-3">
@@ -207,7 +218,7 @@ function ComplaintDetail({ item, onBack, isManager, uid }) {
           <span className="text-xs opacity-50">{t('complaints.openedOn')} {formatDateTime(c.created_at, i18n.language)}</span>
         </div>
         <div className="card">
-          <p className="text-sm opacity-80 whitespace-pre-wrap">{c.description}</p>
+          <p className="text-sm opacity-80 whitespace-pre-wrap break-words">{c.description}</p>
           {c.photo_url && <div className="mt-3"><ProofLink path={c.photo_url} /></div>}
         </div>
       </div>
@@ -216,7 +227,7 @@ function ComplaintDetail({ item, onBack, isManager, uid }) {
       {c.reponse_syndic && (
         <div className="card bg-brand-50/50 dark:bg-brand-900/30">
           <p className="text-sm font-medium mb-1">{t('complaints.response')}</p>
-          <p className="text-sm opacity-80 whitespace-pre-wrap">{c.reponse_syndic}</p>
+          <p className="text-sm opacity-80 whitespace-pre-wrap break-words">{c.reponse_syndic}</p>
         </div>
       )}
 

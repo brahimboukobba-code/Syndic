@@ -87,7 +87,11 @@ export default function NotificationBell() {
       setItems((prev) => prev.map((x) => x.id === n.id ? { ...x, lue: true } : x))
     }
     const route = ENTITY_ROUTE[n.entite_type]
-    if (route) navigate(route)
+    if (route) {
+      // Passer l'id de l'entité pour ouvrir/surligner l'élément précis
+      const url = n.entite_id ? `${route}?focus=${n.entite_id}` : route
+      navigate(url)
+    }
   }
 
   async function openAndRead() {
@@ -139,8 +143,8 @@ export default function NotificationBell() {
                       <div className="flex items-start gap-2">
                         {!n.lue && <span className="mt-1.5 h-2 w-2 rounded-full bg-brand-500 shrink-0" />}
                         <div className={`min-w-0 flex-1 ${n.lue ? 'ps-4' : ''}`}>
-                          <p className="text-sm font-medium">{n.titre}</p>
-                          <p className="text-sm opacity-70">{n.message}</p>
+                          <p className="text-sm font-medium break-words line-clamp-1">{n.titre}</p>
+                          <p className="text-sm opacity-70 break-words line-clamp-2">{n.message}</p>
                           <p className="text-xs opacity-40 mt-0.5">{formatDateTime(n.created_at, i18n.language)}</p>
                         </div>
                         {clickable && (

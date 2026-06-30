@@ -293,7 +293,9 @@
     "required": "هذا الحقل إجباري.",
     "pinned": "مثبت",
     "remove": "إزالة",
-    "confirmRemove": "إزالة هذا الإعلان؟"
+    "confirmRemove": "إزالة هذا الإعلان؟",
+    "showMore": "عرض المزيد",
+    "showLess": "عرض أقل"
   },
   "complaints": {
     "title": "الشكايات",
@@ -453,6 +455,13 @@
     "gridHint": "اضغط على خانة للتصريح بأداء مساهمة",
     "noLogements": "لا توجد مساكن.",
     "tabGrid": "شبكة",
-    "tabList": "لائحة"
+    "tabList": "لائحة",
+    "myReceipts": "إيصالاتي",
+    "myReceiptsHint": "إيصالات مساهماتك المصادق عليها (مرئية لك وحدك).",
+    "noReceipts": "لا يوجد إيصال حتى الآن.",
+    "paidOn": "أُدّيت في",
+    "receipt": "إيصال",
+    "receiptPending": "الإيصال قيد التحضير",
+    "readOnlyHint": "عرض للقراءة فقط — الشبكة تلخّص حالة المساهمات."
   }
 }

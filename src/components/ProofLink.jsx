@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { getSignedUrl } from '../lib/storage'
 
-export default function ProofLink({ path, className = '' }) {
+export default function ProofLink({ path, className = '', label = null }) {
   const { t } = useTranslation()
   const [loading, setLoading] = useState(false)
 
@@ -19,7 +19,7 @@ export default function ProofLink({ path, className = '' }) {
       <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <path d="M14 3h7v7M21 3l-9 9M5 7v12h12"/>
       </svg>
-      {t('finances.viewProof')}
+      {label || t('finances.viewProof')}
     </button>
   )
 }

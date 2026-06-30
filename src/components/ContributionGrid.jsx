@@ -1,10 +1,11 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/AuthContext'
 import { formatMAD } from '../lib/format'
 import { generateReceipt } from '../lib/receipt'
 import { notifyUser } from '../lib/notify'
+import ProofLink from './ProofLink'
 
 // Grille mensuelle des cotisations : logements en lignes, 12 mois en colonnes.
 // Statuts d'une case :
@@ -16,15 +17,43 @@ const MOIS_AR = ['ينا','فبر','مار','أبر','ماي','يون','يول',
 
 export default function ContributionGrid({ exercice, building, logements, contributions, onChanged }) {
   const { t, i18n } = useTranslation()
-  const { roleNames, profile } = useAuth()
+  const { roleNames, profile, session } = useAuth()
   const lang = i18n.language
   const mois = lang === 'ar' ? MOIS_AR : MOIS_FR
   const [busy, setBusy] = useState(null) // clé "logId-month"
   const [montant, setMontant] = useState(building?.montant_cotisation_defaut || 1500)
+  const [mesRecus, setMesRecus] = useState([])
 
   const isTresorier = roleNames.includes('tresorier') || roleNames.includes('admin')
   const isSyndic = roleNames.some((r) => ['syndic','vice_syndic'].includes(r))
   const canManage = isTresorier || isSyndic
+  const uid = session?.user?.id
+
+  // Pour un propriétaire (lecture seule) : charger SES cotisations payées
+  // (de son/ses logement(s)) avec le reçu PDF associé.
+  useEffect(() => {
+    if (canManage || !uid || !exercice?.id) return
+    let cancel = false
+    ;(async () => {
+      // Trouver les logements de l'utilisateur
+      const { data: occ } = await supabase
+        .from('occupations')
+        .select('logement_id')
+        .eq('user_id', uid)
+        .is('date_fin', null)
+      const logIds = (occ || []).map((o) => o.logement_id)
+      if (logIds.length === 0) { if (!cancel) setMesRecus([]); return }
+      const { data: cots } = await supabase
+        .from('cotisations')
+        .select('id, periode, montant, statut, recu_url, recu_numero, date_paiement, logement:logements(numero)')
+        .eq('exercice_id', exercice.id)
+        .in('logement_id', logIds)
+        .eq('statut', 'paye')
+        .order('periode', { ascending: false })
+      if (!cancel) setMesRecus(cots || [])
+    })()
+    return () => { cancel = true }
+  }, [canManage, uid, exercice?.id, contributions])
 
   const annee = useMemo(() => {
     if (exercice?.date_debut) return new Date(exercice.date_debut).getFullYear()
@@ -207,7 +236,7 @@ export default function ContributionGrid({ exercice, building, logements, contri
   return (
     <div>
       {/* Barre montant (gestionnaires) */}
-      {canManage && (
+      {canManage ? (
         <div className="card mb-4 flex items-center gap-3 flex-wrap">
           <label className="text-sm font-medium">{t('contrib.amount')} :</label>
           <input
@@ -220,6 +249,8 @@ export default function ContributionGrid({ exercice, building, logements, contri
           <span className="text-sm opacity-60">MAD / {t('contrib.perMonth')}</span>
           <span className="text-xs opacity-50 ms-auto">{t('contrib.gridHint')}</span>
         </div>
+      ) : (
+        <p className="text-xs opacity-50 mb-3">{t('contrib.readOnlyHint')}</p>
       )}
 
       {/* Légende */}
@@ -255,6 +286,35 @@ export default function ContributionGrid({ exercice, building, logements, contri
 
       {logements.length === 0 && (
         <p className="text-sm opacity-60 py-8 text-center">{t('contrib.noLogements')}</p>
+      )}
+
+      {/* Section "Mes reçus" — propriétaires en lecture seule */}
+      {!canManage && (
+        <div className="mt-6">
+          <h3 className="font-semibold mb-1">{t('contrib.myReceipts')}</h3>
+          <p className="text-xs opacity-50 mb-3">{t('contrib.myReceiptsHint')}</p>
+          {mesRecus.length === 0 ? (
+            <p className="text-sm opacity-60 py-6 text-center card">{t('contrib.noReceipts')}</p>
+          ) : (
+            <div className="space-y-2">
+              {mesRecus.map((c) => (
+                <div key={c.id} className="card flex items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="font-medium">{t('contrib.apartment')} {c.logement?.numero} · {c.periode}</p>
+                    <p className="text-xs opacity-60">
+                      {formatMAD(c.montant)}
+                      {c.date_paiement ? ` · ${t('contrib.paidOn')} ${c.date_paiement}` : ''}
+                      {c.recu_numero ? ` · ${c.recu_numero}` : ''}
+                    </p>
+                  </div>
+                  {c.recu_url
+                    ? <ProofLink path={c.recu_url} label={t('contrib.receipt')} />
+                    : <span className="text-xs opacity-40 shrink-0">{t('contrib.receiptPending')}</span>}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       )}
     </div>
   )

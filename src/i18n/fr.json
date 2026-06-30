@@ -293,7 +293,9 @@
     "required": "Ce champ est obligatoire.",
     "pinned": "Épinglée",
     "remove": "Retirer",
-    "confirmRemove": "Retirer cette annonce ?"
+    "confirmRemove": "Retirer cette annonce ?",
+    "showMore": "Voir plus",
+    "showLess": "Voir moins"
   },
   "complaints": {
     "title": "Réclamations",
@@ -453,6 +455,13 @@
     "gridHint": "Cliquez sur une case pour déclarer une cotisation payée",
     "noLogements": "Aucun logement.",
     "tabGrid": "Grille",
-    "tabList": "Liste"
+    "tabList": "Liste",
+    "myReceipts": "Mes reçus",
+    "myReceiptsHint": "Les reçus de vos cotisations validées (visibles par vous seul).",
+    "noReceipts": "Aucun reçu pour le moment.",
+    "paidOn": "payé le",
+    "receipt": "Reçu",
+    "receiptPending": "Reçu en préparation",
+    "readOnlyHint": "Affichage en lecture seule — la grille résume l'état des cotisations."
   }
 }

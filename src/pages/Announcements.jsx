@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useSearchParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/AuthContext'
 import { formatDateTime } from '../lib/format'
@@ -18,6 +19,9 @@ export default function Announcements() {
   const [form, setForm] = useState({ titre: '', contenu: '', niveau: 'info', epingle: false })
   const [error, setError] = useState('')
   const [saving, setSaving] = useState(false)
+  const [expanded, setExpanded] = useState(null)
+  const [focusId, setFocusId] = useState(null)
+  const [searchParams] = useSearchParams()
 
   const load = useCallback(async () => {
     if (!building?.id) { setLoading(false); return }
@@ -34,6 +38,22 @@ export default function Announcements() {
   }, [building?.id])
 
   useEffect(() => { load() }, [load])
+
+  // Ouvrir/surligner l'annonce ciblée par une notification (?focus=<id>)
+  useEffect(() => {
+    const fid = searchParams.get('focus')
+    if (fid && items.length > 0) {
+      setExpanded(fid)
+      setFocusId(fid)
+      // Scroller vers l'annonce
+      setTimeout(() => {
+        document.getElementById(`annonce-${fid}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }, 100)
+      // Retirer le surlignage après 3s
+      const tm = setTimeout(() => setFocusId(null), 3000)
+      return () => clearTimeout(tm)
+    }
+  }, [searchParams, items])
 
   async function publish(e) {
     e.preventDefault()
@@ -94,24 +114,41 @@ export default function Announcements() {
         <p className="text-sm opacity-60 py-8 text-center">{t('announcements.noAnnouncements')}</p>
       ) : (
         <div className="space-y-3">
-          {items.map((a) => (
-            <div key={a.id} className={`card ${a.niveau === 'urgent' ? 'ring-2 ring-red-200 dark:ring-red-900' : ''}`}>
+          {items.map((a) => {
+            const isOpen = expanded === a.id
+            const isLong = (a.contenu || '').length > 140
+            return (
+            <div
+              key={a.id}
+              id={`annonce-${a.id}`}
+              className={`card transition-shadow ${a.niveau === 'urgent' ? 'ring-2 ring-red-200 dark:ring-red-900' : ''} ${focusId === a.id ? 'ring-2 ring-brand-400' : ''}`}
+            >
               <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0">
+                <button
+                  type="button"
+                  onClick={() => setExpanded(isOpen ? null : a.id)}
+                  className="min-w-0 flex-1 text-start"
+                >
                   <div className="flex items-center gap-2 flex-wrap mb-1">
-                    <p className="font-semibold">{a.titre}</p>
+                    <p className="font-semibold break-words">{a.titre}</p>
                     {a.epingle && <Badge tone="gray">📌 {t('announcements.pinned')}</Badge>}
                     <Badge tone={levelTone[a.niveau]}>{t(`announcements.levels.${a.niveau}`)}</Badge>
                   </div>
-                  <p className="text-sm opacity-80 whitespace-pre-wrap">{a.contenu}</p>
+                  <p className={`text-sm opacity-80 whitespace-pre-wrap break-words ${isOpen ? '' : 'line-clamp-2'}`}>{a.contenu}</p>
+                  {isLong && (
+                    <span className="text-xs text-brand-500 mt-1 inline-block">
+                      {isOpen ? t('announcements.showLess') : t('announcements.showMore')}
+                    </span>
+                  )}
                   <p className="text-xs opacity-40 mt-2">{formatDateTime(a.created_at, i18n.language)}</p>
-                </div>
+                </button>
                 {isManager && (
                   <button onClick={() => remove(a.id)} className="text-xs text-red-600 hover:underline shrink-0">{t('announcements.remove')}</button>
                 )}
               </div>
             </div>
-          ))}
+            )
+          })}
         </div>
       )}
 
