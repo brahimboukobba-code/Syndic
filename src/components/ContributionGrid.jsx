@@ -74,6 +74,13 @@ export default function ContributionGrid({ exercice, building, logements, contri
     return `${annee}-${mm}`
   }
 
+  // Un mois est "échu" si sa date d'échéance (fin du mois) est passée.
+  // On considère l'échéance au 28 du mois (cohérent avec la déclaration).
+  function isEchue(monthIndex) {
+    const echeance = new Date(annee, monthIndex, 28)
+    return echeance < new Date()
+  }
+
   // Déclarer une cotisation comme payée (statut declaree)
   async function declarer(logement, monthIndex) {
     const periode = periodFor(monthIndex)
@@ -216,20 +223,32 @@ export default function ContributionGrid({ exercice, building, logements, contri
         </button>
       )
     }
-    // Vide -> déclarer
+    // Vide -> selon échéance : en retard (rouge) ou normal
+    const enRetard = isEchue(monthIndex)
     if (canManage) {
       return (
         <button
           onClick={() => declarer(logement, monthIndex)}
           disabled={isBusy}
-          title={t('contrib.declare')}
-          className="h-8 w-8 rounded-lg border-2 border-dashed border-black/15 dark:border-white/20 hover:border-brand-400 hover:bg-brand-50 dark:hover:bg-brand-900/30 flex items-center justify-center mx-auto disabled:opacity-50"
+          title={enRetard ? t('contrib.overdue') : t('contrib.declare')}
+          className={enRetard
+            ? "h-8 w-8 rounded-lg bg-red-100 dark:bg-red-900/30 border border-red-300 text-red-600 flex items-center justify-center mx-auto hover:bg-red-200 disabled:opacity-50"
+            : "h-8 w-8 rounded-lg border-2 border-dashed border-black/15 dark:border-white/20 hover:border-brand-400 hover:bg-brand-50 dark:hover:bg-brand-900/30 flex items-center justify-center mx-auto disabled:opacity-50"}
         >
-          <span className="opacity-30 text-lg leading-none">+</span>
+          {enRetard
+            ? <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+            : <span className="opacity-30 text-lg leading-none">+</span>}
         </button>
       )
     }
-    // Lecture seule : case vide
+    // Lecture seule : en retard = pastille rouge, sinon tiret
+    if (enRetard) {
+      return (
+        <span title={t('contrib.overdue')} className="inline-flex h-8 w-8 items-center justify-center mx-auto">
+          <span className="h-3 w-3 rounded-full bg-red-400"></span>
+        </span>
+      )
+    }
     return <span className="opacity-20">—</span>
   }
 
@@ -257,6 +276,7 @@ export default function ContributionGrid({ exercice, building, logements, contri
       <div className="flex gap-4 mb-3 text-xs flex-wrap">
         <span className="flex items-center gap-1.5"><span className="h-4 w-4 rounded bg-emerald-500"></span>{t('contrib.paid')}</span>
         <span className="flex items-center gap-1.5"><span className="h-4 w-4 rounded bg-amber-300"></span>{t('contrib.declared')}</span>
+        <span className="flex items-center gap-1.5"><span className="h-4 w-4 rounded bg-red-200 border border-red-300"></span>{t('contrib.overdue')}</span>
         <span className="flex items-center gap-1.5"><span className="h-4 w-4 rounded border-2 border-dashed border-black/20"></span>{t('contrib.none')}</span>
       </div>
 

@@ -462,6 +462,7 @@
     "paidOn": "payé le",
     "receipt": "Reçu",
     "receiptPending": "Reçu en préparation",
-    "readOnlyHint": "Affichage en lecture seule — la grille résume l'état des cotisations."
+    "readOnlyHint": "Affichage en lecture seule — la grille résume l'état des cotisations.",
+    "overdue": "En retard"
   }
 }
