@@ -3,26 +3,27 @@
 -- Création automatique de l'exercice de l'année courante.
 --
 -- Principe : une fonction SECURITY DEFINER que l'app appelle au
--- chargement. Si aucun exercice ne couvre l'année en cours pour
--- l'immeuble, elle en crée un :
+-- chargement via supabase.rpc(). Si aucun exercice ne couvre l'année
+-- en cours pour l'immeuble, elle en crée un :
 --   - libellé "Exercice AAAA"
 --   - du 1er janvier au 31 décembre de l'année courante
 --   - budget prévisionnel = montant_cotisation_defaut x 12 x nb logements
 --   - statut "en_cours"
 -- L'ancien exercice est LAISSÉ OUVERT (le syndic le clôture en AG).
 --
--- SECURITY DEFINER : la fonction s'exécute avec les privilèges du
--- propriétaire, donc même un simple membre qui ouvre l'app déclenche
--- la création sans être bloqué par la RLS. La fonction ne crée QUE
--- l'exercice de l'année courante et rien d'autre.
+-- IMPORTANT : la fonction est dans le schéma PUBLIC pour être
+-- appelable par l'API REST (PostgREST n'expose que public par défaut).
+-- SECURITY DEFINER : s'exécute avec les privilèges du propriétaire,
+-- donc la création n'est pas bloquée par la RLS, mais la fonction
+-- vérifie d'abord que l'appelant est membre de l'immeuble.
 -- À exécuter dans le SQL Editor de Supabase.
 -- =====================================================================
 
-create or replace function app.ensure_exercice_courant(p_immeuble uuid)
+create or replace function public.ensure_exercice_courant(p_immeuble uuid)
 returns uuid
 language plpgsql
 security definer
-set search_path = public, app
+set search_path = public
 as $$
 declare
   v_annee        int := extract(year from current_date)::int;
@@ -74,4 +75,4 @@ begin
 end;
 $$;
 
-grant execute on function app.ensure_exercice_courant(uuid) to authenticated;
+grant execute on function public.ensure_exercice_courant(uuid) to authenticated;
